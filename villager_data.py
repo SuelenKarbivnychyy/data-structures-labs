@@ -10,12 +10,16 @@ def all_species(filename):
     Return:
         - set[str]: a set of strings
     """
-
     species = set()
+    with open('villagers.csv') as file:
+        contents = file.readlines()
 
-    # TODO: replace this with your code
-
-    return species
+        for line in contents:
+            list_line =line.rsplit("|")
+            species.add(list_line[1])
+    return species     
+  
+# print(all_species('villagers.csv'))
 
 
 def get_villagers_by_species(filename, search_string="All"):
@@ -31,10 +35,18 @@ def get_villagers_by_species(filename, search_string="All"):
 
     villagers = []
 
-    # TODO: replace this with your code
+    with open('villagers.csv') as file:
+        file_lines = file.readlines()
+
+        for line in file_lines:
+            list_line = line.rsplit("|")
+            if search_string == list_line[1]:
+                villagers.append(list_line[0])
+            else:
+                villagers.append(list_line[0])    
 
     return sorted(villagers)
-
+# print(get_villagers_by_species('villagers.csv', "Bear"))
 
 def all_names_by_hobby(filename):
     """Return a list of lists containing villagers' names, grouped by hobby.
@@ -45,10 +57,43 @@ def all_names_by_hobby(filename):
     Return:
         - list[list[str]]: a list of lists containing names
     """
+    fitness = []
+    nature = []
+    education = []
+    music = []
+    fashion = []
+    play = []
 
-    # TODO: replace this with your code
+   
+    with open('villagers.csv') as file:
+        file_content = file.readlines()
 
-    return []
+        for line in file_content:
+            lines_file = line.rsplit("|")
+            hobby = lines_file[3]
+            name = lines_file[0]
+
+
+            if hobby == "Fitness":
+                fitness.append(name)
+            elif hobby == "Nature":
+                nature.append(name) 
+            elif hobby == "Education":
+                education.append(name) 
+            elif hobby == "Music":
+                music.append(name) 
+            elif hobby == "Fashion":
+                fashion.append(name) 
+            elif hobby == "Play":
+                play.append(name)     
+
+    villagers_group_by_hobby = [sorted(fitness), sorted(nature), sorted(education), sorted(music), sorted(fashion), sorted(play)]                         
+       
+    return villagers_group_by_hobby
+
+print(all_names_by_hobby('villagers.csv'))    
+
+
 
 
 def all_data(filename):
