@@ -15,7 +15,7 @@ def all_species(filename):
         contents = file.readlines()
 
         for line in contents:
-            list_line =line.rsplit("|")
+            list_line =line.rstrip().split("|")
             species.add(list_line[1])
     return species     
   
@@ -91,7 +91,7 @@ def all_names_by_hobby(filename):
        
     return villagers_group_by_hobby
 
-print(all_names_by_hobby('villagers.csv'))    
+# print(all_names_by_hobby('villagers.csv'))    
 
 
 
@@ -111,9 +111,15 @@ def all_data(filename):
 
     all_data = []
 
-    # TODO: replace this with your code
+    with open("villagers.csv") as file:
+        file_content = file.readlines()
+
+        for line in file_content:
+            file_line = line.rsplit("|")
+            all_data.append(tuple(file_line))    
 
     return all_data
+# print(all_data("villagers.csv"))    
 
 
 def find_motto(filename, villager_name):
@@ -129,8 +135,21 @@ def find_motto(filename, villager_name):
     Return:
         - str: the villager's motto or None
     """
+    villager_name = villager_name.lower()
+    with open("villagers.csv") as file:
+        file_content = file.readlines()
 
-    # TODO: replace this with your code
+        for line in file_content:
+            villager = line.lower().split("|")
+
+            name_to_compare = villager[0]
+            
+            if name_to_compare == villager_name:
+                return villager
+   
+    return None
+# print(find_motto("villagers.csv", "Motto"))                    
+
 
 
 def find_likeminded_villagers(filename, villager_name):
@@ -147,5 +166,33 @@ def find_likeminded_villagers(filename, villager_name):
         >>> find_likeminded_villagers('villagers.csv', 'Wendy')
         {'Bella', ..., 'Carmen'}
     """
+    villagers_with_similar_personality = []
+    villager_name = villager_name.lower()
+    
+    with open("villagers.csv") as file:
+        file_content = file.readlines()
 
-    # TODO: replace this with your code
+        for line in file_content:
+            villager = line.lower().rsplit("|")
+
+            if villager[0] == villager_name:
+                personality_to_compare = villager[2]
+                # print(personality_to_compare)             
+                break
+
+    with open("villagers.csv") as file2:
+        file_content2 = file2.readlines()    
+
+        for line2 in file_content2:
+            villager2 = line2.lower().rsplit("|")            
+            current_villager_personality = villager2[2]            
+
+            if personality_to_compare == current_villager_personality:                
+                villagers_with_similar_personality.append(villager2[0])
+                        
+        
+
+    return set(villagers_with_similar_personality)
+
+
+print(find_likeminded_villagers("villagers.csv", "Wendy"))        
